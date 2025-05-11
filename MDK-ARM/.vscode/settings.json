@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "freertos.h": "c",
+        "cstdlib": "c",
+        "driver_led.h": "c",
+        "bit": "c",
+        "compare": "c",
+        "limits": "c",
+        "new": "c",
+        "driver_timer.h": "c",
+        "task.h": "c",
+        "driver_spiflash_w25q64.h": "c",
+        "typeinfo": "c",
+        "driver_lcd.h": "c"
+    }
+}
