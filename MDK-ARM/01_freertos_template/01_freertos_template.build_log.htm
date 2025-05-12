@@ -21,7 +21,7 @@ Target DLL:      CMSIS_AGDI.dll V1.33.21.0
 Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
-e:\code\stm32code\rtos\f103c8t6\02_freertos_template\MDK-ARM\01_freertos_template.uvprojx
+e:\code\stm32code\DSfreeRTOS\06_freertos_template\MDK-ARM\01_freertos_template.uvprojx
 Project File Date:  04/28/2025
 
 <h2>Output:</h2>
@@ -36,11 +36,17 @@ compiling freertos.c...
   static uint32_t Color_Test_Stack[128];
 ../Core/Src/freertos.c(66): warning:  #177-D: variable "Color_Test_TCB"  was declared but never referenced
   static StaticTask_t Color_Test_TCB;
-../Core/Src/freertos.c: 4 warnings, 0 errors
+../Core/Src/freertos.c(96): warning:  #177-D: variable "g_task1_info"  was declared but never referenced
+  static struct TaskPrintInfo g_task1_info = {0, 0, "task1"};
+../Core/Src/freertos.c(98): warning:  #177-D: variable "g_task3_info"  was declared but never referenced
+  static struct TaskPrintInfo g_task3_info = {0, 6, "task3"};
+../Core/Src/freertos.c(99): warning:  #177-D: variable "Lcd_CanUse"  was declared but never referenced
+  static int Lcd_CanUse = 1;
+../Core/Src/freertos.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=17696 RO-data=2360 RW-data=256 ZI-data=9384  
+Program Size: Code=18024 RO-data=2360 RW-data=232 ZI-data=9384  
 FromELF: creating hex file...
-"01_freertos_template\01_freertos_template.axf" - 0 Error(s), 4 Warning(s).
+"01_freertos_template\01_freertos_template.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 

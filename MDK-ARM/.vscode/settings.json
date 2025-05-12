@@ -11,6 +11,7 @@
         "task.h": "c",
         "driver_spiflash_w25q64.h": "c",
         "typeinfo": "c",
-        "driver_lcd.h": "c"
+        "driver_lcd.h": "c",
+        "driver_light_sensor.h": "c"
     }
 }

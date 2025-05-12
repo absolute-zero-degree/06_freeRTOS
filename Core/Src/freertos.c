@@ -97,23 +97,38 @@ static struct TaskPrintInfo g_task1_info = {0, 0, "task1"};
 static struct TaskPrintInfo g_task2_info = {0, 3, "task2"};
 static struct TaskPrintInfo g_task3_info = {0, 6, "task3"};
 static int Lcd_CanUse = 1;
+static volatile int16_t g_calc_enable = 0;
+static uint64_t g_time = 0;
+static uint32_t g_cnt = 0;
+void CalcTask(void *argument)
+{
+  g_time = system_get_ns();
+  while (1)
+  {
+    for (size_t i = 0; i < 10000000; i++)
+    {
+      g_cnt += i;
+    }
+    g_time = system_get_ns() - g_time;
+    g_calc_enable = 1;
+    vTaskDelete(NULL);
+  }
+}
 
 void Lcd_PrintTask(void *argument)
 {
-  struct TaskPrintInfo *info = (struct TaskPrintInfo *)argument;
-  uint32_t cnt = 0;
-  int len ;
+
   while (1)
   {
-    if (Lcd_CanUse == 1)
-    {
-      Lcd_CanUse = 0;
-      len = LCD_PrintString(info->x, info->y, info->name);
-      len += LCD_PrintString(len, info->y, ":");
-      LCD_PrintSignedVal(len, info->y, cnt++);
-      Lcd_CanUse = 1;
-    }
-    osDelay(1000);
+    vTaskDelay(3000);
+    LCD_PrintString(0, 0, "waiting");
+    while (g_calc_enable == 0);
+    LCD_ClearLine(0,0);
+    LCD_PrintHex(0, 0, g_cnt,1);
+
+    LCD_ClearLine(0, 2);
+    LCD_PrintSignedVal(0,2, g_time/1000000);
+    vTaskDelete(NULL);
   }
 }
 /* USER CODE END FunctionPrototypes */
@@ -163,10 +178,8 @@ void MX_FREERTOS_Init(void)
 
   // xColor_TestTaskHandle = xTaskCreateStatic(ColorLED_Test, "ColorLED_Test", 128, NULL, osPriorityNormal, Color_Test_Stack, &Color_Test_TCB);
 
-  xTaskCreate(Lcd_PrintTask, "task1", 128, &g_task1_info, osPriorityNormal, NULL);
+  xTaskCreate(CalcTask, "task1", 128, NULL, osPriorityNormal, NULL);
   xTaskCreate(Lcd_PrintTask, "task2", 128, &g_task2_info, osPriorityNormal, NULL);
-  xTaskCreate(Lcd_PrintTask, "task3", 128, &g_task3_info, osPriorityNormal, NULL);
-
 
   /* USER CODE END RTOS_THREADS */
 
